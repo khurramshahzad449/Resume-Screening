@@ -187,11 +187,11 @@ When done, provide your final output in the specified format.
     )
 
     if not response.choices or not response.choices[0].message.content.strip():
-        print("Warning: Empty response from API")
+        ##print("Warning: Empty response from API")
         return []
 
     response_text = response.choices[0].message.content.strip()
-    # print("Debug: API Response ->", response_text)  
+    # ##print("Debug: API Response ->", response_text)  
 
     # Process response
     weighted_skills = []
@@ -291,27 +291,27 @@ def create_gradio_interface():
             if isinstance(gradio_df, pd.DataFrame):  
                 # Convert pandas DataFrame to list of lists
                 rows = gradio_df.values.tolist()
-                print("DEBUG: Extracted Rows (from DataFrame) ->", rows)
+                ##print("DEBUG: Extracted Rows (from DataFrame) ->", rows)
 
             elif isinstance(gradio_df, dict):  
                 # Convert dictionary format to list of lists (row-wise)
                 rows = list(zip(*gradio_df.values())) 
-                print("rows dic : ", rows) 
+                ##print("rows dic : ", rows) 
 
             elif isinstance(gradio_df, list):  
                 # Ensure it's a list of lists format
                 rows = gradio_df  
-                print("rows list : ", rows) 
+                ##print("rows list : ", rows) 
 
             else:
-                print("Unexpected Gradio DataFrame format:", type(gradio_df))
+                ##print("Unexpected Gradio DataFrame format:", type(gradio_df))
                 return []
 
             extracted_data = []
             for row in rows:
                 if len(row) == 4:  # Ensure we have exactly 4 columns
                     skill, weightage, hr_comment, rationale = row
-                    print(skill, weightage, hr_comment, rationale)
+                    ##print(skill, weightage, hr_comment, rationale)
                     
                     extracted_data.append({
                         "filename": str(filename),
@@ -325,7 +325,7 @@ def create_gradio_interface():
         
         def save_results(jd_filename, gradio_df):
             extracted_results = extract_data_from_gradio_df(gradio_df, jd_filename)
-            print("DEBUG: Extracted Data ->", extracted_results, jd_filename)  # Debugging output
+            ##print("DEBUG: Extracted Data ->", extracted_results, jd_filename)  # Debugging output
             results = [[item["filename"],item["skill"], item["weightage"], item["hr_comment"], item["rationale"]] for item in extracted_results]
             save_results_to_db(jd_filename, results)  # Save to DB
             return (
